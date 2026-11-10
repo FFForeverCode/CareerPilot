@@ -1,0 +1,7 @@
+.DS_Store
+.pylibs/
+__pycache__/
+*.pyc
+career.db
+.env
+.env.*
