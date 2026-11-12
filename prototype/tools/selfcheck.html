@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>原型自检 · 业务规则</title>
+<style>
+  body { font-family: Consolas, "Microsoft YaHei", monospace; padding: 20px; background: #F6F4F1; color: #1f2937; }
+  h1 { font-size: 18px; }
+  pre { background: #fff; border: 1px solid #e5e2dc; border-radius: 8px; padding: 14px; font-size: 12.5px; line-height: 1.7; white-space: pre-wrap; }
+  .ok { color: #1e7b4f; }
+  .fail { color: #b3261e; font-weight: 700; }
+</style>
+</head>
+<body>
+<h1>CareerPilot 原型自检（业务规则）</h1>
+<p style="font-size:13px;color:#6b7280">用纯前端方式把主要业务规则跑一遍：注册登录、档案、测评计分、推荐、对话、方案、老师和管理员端。测试会重置原型数据。</p>
+<pre id="out">运行中…</pre>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/store.js"></script>
+<script src="../assets/js/mock-api.js"></script>
+<script src="selftests.js"></script>
+<script>
+(function () {
+  try {
+    var res = window.runSelfTests();
+    var out = document.getElementById('out');
+    out.innerHTML = '<span class="' + (res.ok ? 'ok' : 'fail') + '">SELFCHECK ' + (res.ok ? 'PASS' : 'FAIL') +
+      ' 通过 ' + res.pass + ' 项，失败 ' + res.fail + ' 项</span>\n' + res.lines.join('\n');
+    document.title = 'SELFCHECK ' + (res.ok ? 'PASS' : 'FAIL') + ' ' + res.pass + '/' + (res.pass + res.fail);
+  } catch (e) {
+    document.getElementById('out').innerHTML = 'SELFCHECK ERROR ' + (e && e.message) + '\n' + (e && e.stack);
+    document.title = 'SELFCHECK ERROR';
+  }
+})();
+</script>
+</body>
+</html>

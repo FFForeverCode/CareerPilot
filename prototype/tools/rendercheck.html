@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>原型自检 · 页面渲染</title>
+<style>
+  body { font-family: Consolas, "Microsoft YaHei", monospace; padding: 20px; background: #F6F4F1; color: #1f2937; }
+  h1 { font-size: 18px; }
+  pre { background: #fff; border: 1px solid #e5e2dc; border-radius: 8px; padding: 14px; font-size: 12.5px; line-height: 1.7; white-space: pre-wrap; }
+  .ok { color: #1e7b4f; }
+  .fail { color: #b3261e; font-weight: 700; }
+</style>
+</head>
+<body>
+<h1>CareerPilot 原型自检（页面渲染）</h1>
+<p style="font-size:13px;color:#6b7280">按角色依次打开 12 个路由，检查页面框架、标题和关键固定原文是否真的渲染出来。</p>
+<div id="app"></div>
+<div id="toast" hidden></div>
+<div id="modal-root"></div>
+<pre id="rc">运行中…</pre>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/store.js"></script>
+<script src="../assets/js/mock-api.js"></script>
+<script src="../assets/js/ui.js"></script>
+<script src="../assets/js/views-student.js"></script>
+<script src="../assets/js/views-manage.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  'use strict';
+  var errors = [];
+  window.onerror = function (msg, src, line) {
+    errors.push(msg + ' @' + (src || '') + ':' + line);
+  };
+  var lines = [], pass = 0, fail = 0;
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  function check(name, cond, extra) {
+    if (cond) { pass++; lines.push('PASS  ' + name); }
+    else { fail++; lines.push('FAIL  ' + name + (extra ? '  → ' + extra : '')); }
+  }
+  function bodyText() { return (document.body.innerText || '').replace(/\s+/g, ' '); }
+
+  var D = window.CAREER_DATA, S = window.Store, API = window.API;
+
+  var cases = [
+    { name: '登录页 P-01', setup: function () { S.reset(); }, hash: '#/login', marker: '学生登录', sel: '.auth-wrap', extraCheck: function () { return bodyText().indexOf('教学演示') >= 0; } },
+    { name: '注册页 P-01', hash: '#/login/register', marker: '学生注册', sel: '.auth-wrap' },
+    { name: '学生首页 P-02', setup: function () { API.login(D.DEMO_ACCOUNTS.student); }, hash: '#/home', marker: '学生首页', sel: '.sidebar', extraCheck: function () { return bodyText().indexOf(D.TEXTS.T01) >= 0; } },
+    { name: '学业档案 P-03', hash: '#/profile', marker: '学业档案', sel: '.sidebar' },
+    { name: '测评作答 P-04', hash: '#/assessment', marker: '职业意向测评', sel: '.q-card', extraCheck: function () { return document.querySelectorAll('.q-card').length === 24; } },
+    { name: '测评结果 P-05', hash: '#/assessment/result', marker: '测评结果', sel: '.score-bars', extraCheck: function () { return bodyText().indexOf(D.TEXTS.T03) >= 0; } },
+    { name: '规划对话 P-06', hash: '#/chat', marker: '规划对话', sel: '.chat-layout', extraCheck: function () { return bodyText().indexOf(D.TEXTS.T01) >= 0; } },
+    { name: '我的方案 P-08', hash: '#/plans', marker: '我的方案', sel: '.plan-row' },
+    { name: '方案详情 P-07', hash: '#/plans/1', marker: '方案详情', sel: '#plan-sheet', extraCheck: function () { return D.TEXTS.T09_LIST.every(function (h) { return bodyText().indexOf(h) >= 0; }) && !!document.getElementById('btn-print'); } },
+    { name: '方向与收藏 P-09', hash: '#/directions', marker: '方向与收藏', sel: '.dir-card', extraCheck: function () { return bodyText().indexOf(D.TEXTS.T10) >= 0; } },
+    { name: '老师学生方案 P-10', setup: function () { API.login(D.DEMO_ACCOUNTS.teacher); }, hash: '#/teacher/students', marker: '学生方案', sel: '.sidebar', extraCheck: function () { return bodyText().indexOf('查看对话') < 0; } },
+    { name: '管理员题目与方向 P-11', setup: function () { API.login(D.DEMO_ACCOUNTS.admin); }, hash: '#/admin/library', marker: '题目与方向', sel: '.sidebar' },
+    { name: '管理员公告 P-12', hash: '#/admin/ops?tab=announce', marker: '公告、参数、统计、日志', sel: '.ann-list' },
+    { name: '管理员参数 P-12', hash: '#/admin/ops?tab=params', marker: '模型参数', sel: '#c-timeout' },
+    { name: '管理员统计 P-12', hash: '#/admin/ops?tab=stats', marker: '注册学生数', sel: '.stat-grid' },
+    { name: '管理员日志 P-12', hash: '#/admin/ops?tab=logs', marker: '关键操作日志', sel: '#log-tbody' }
+  ];
+
+  window.addEventListener('load', async function () {
+    for (var i = 0; i < cases.length; i++) {
+      var c = cases[i];
+      try {
+        if (c.setup) { c.setup(); }
+        window.location.hash = c.hash;
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+        await sleep(180);
+        var okMarker = bodyText().indexOf(c.marker) >= 0;
+        var okSel = c.sel ? !!document.querySelector(c.sel) : true;
+        var okExtra = c.extraCheck ? c.extraCheck() : true;
+        check(c.name + '（标题/框架/固定原文）', okMarker && okSel && okExtra,
+          'marker=' + okMarker + ' sel=' + okSel + ' extra=' + okExtra);
+      } catch (e) {
+        check(c.name, false, '异常 ' + (e && e.message));
+      }
+    }
+    check('运行期间没有脚本错误', errors.length === 0, errors.join(' | '));
+    var out = document.getElementById('rc');
+    out.innerHTML = '<span class="' + (fail ? 'fail' : 'ok') + '">RENDERCHECK ' + (fail ? 'FAIL' : 'PASS') +
+      ' 通过 ' + pass + ' 项，失败 ' + fail + ' 项</span>\n' + lines.join('\n');
+    document.title = 'RENDERCHECK ' + (fail ? 'FAIL' : 'PASS') + ' ' + pass + '/' + (pass + fail);
+  });
+})();
+</script>
+</body>
+</html>
