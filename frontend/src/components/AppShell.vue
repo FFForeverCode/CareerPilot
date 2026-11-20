@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
-import { ROLE_NAME, TEXTS } from '@/constants/texts'
+import { ROLE_NAME } from '@/constants/texts'
 
 const props = defineProps<{
   menuLabel: string
@@ -19,6 +19,8 @@ const activeKey = computed(() => {
     const tab = String(route.query.tab || 'announce')
     return tab === 'stats' || tab === 'logs' ? 'ops-stats' : 'ops-announce'
   }
+  if (route.name === 'plan-detail' && auth.role === 'teacher') return 'teacher'
+  if (route.name === 'plan-detail' && auth.role === 'student') return 'plans'
   return String(route.meta.nav || '')
 })
 
@@ -34,12 +36,12 @@ async function onLogout() {
 async function onReset() {
   try {
     await ElMessageBox.confirm(
-      '将清空本机假数据并恢复种子。当前登录也会退出。',
-      '重置演示数据',
-      { confirmButtonText: '重置', cancelButtonText: '取消', type: 'warning' },
+      '将恢复系统初始示例数据，并退出当前登录。确认继续？',
+      '恢复初始数据',
+      { confirmButtonText: '确认恢复', cancelButtonText: '取消', type: 'warning' },
     )
     auth.resetDemoData()
-    ElMessage.success('演示数据已重置。')
+    ElMessage.success('已恢复初始数据。')
     router.push('/login')
   } catch {
     /* cancel */
@@ -54,7 +56,7 @@ async function onReset() {
         <div class="brand-mark">CP</div>
         <div class="brand-text">
           <span class="brand-name">CareerPilot</span>
-          <span class="brand-sub">{{ TEXTS.T02 }} · Vue 前端</span>
+          <span class="brand-sub">大学生职业生涯规划</span>
         </div>
       </div>
       <div class="nav-label">{{ menuLabel }}</div>
@@ -71,8 +73,8 @@ async function onReset() {
         </RouterLink>
       </nav>
       <div class="sidebar-foot">
-        当前为假数据阶段，规则对齐产品原型。<br />
-        所有姓名、学号均为虚构。
+        帮助学生完成档案、测评、方向参考与规划方案。<br />
+        规划结果仅供参考，不代表学校官方意见。
       </div>
     </aside>
 
@@ -88,7 +90,7 @@ async function onReset() {
             <span>{{ auth.user.realName }}</span>
             <span class="role-tag">{{ ROLE_NAME[auth.user.role] }}</span>
           </div>
-          <button class="btn btn-ghost btn-sm" type="button" @click="onReset">重置数据</button>
+          <button class="btn btn-ghost btn-sm" type="button" @click="onReset">恢复初始数据</button>
           <button class="btn btn-plain btn-sm" type="button" @click="onLogout">退出登录</button>
         </div>
       </header>

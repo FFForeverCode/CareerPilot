@@ -2,28 +2,28 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { API } from '@/mock/api.js'
+import { assessmentApi } from '@/api'
 import { useAuthStore } from '@/stores/auth'
 import { TEXTS } from '@/constants/texts'
 
 const router = useRouter()
 const auth = useAuthStore()
 const userId = auth.user!.id
-const page = API.getAssessmentPage()
-const available = page.ok && page.data.available
-const questions = available ? page.data.questions : []
+const page = assessmentApi.getAssessmentPage()
+const available = page.success && !!(page.data as any)?.available
+const questions = available ? ((page.data as any).questions as any[]) : []
 const answers = reactive<Record<number, string>>({})
 const submitting = ref(false)
 
 function submit() {
   submitting.value = true
-  const res = API.submitAssessment(userId, { ...answers })
+  const res = assessmentApi.submitAssessment(userId, { ...answers })
   submitting.value = false
-  if (!res.ok) {
-    ElMessage.error(res.msg)
+  if (!res.success) {
+    ElMessage.error(res.message)
     return
   }
-  ElMessage.success(res.msg)
+  ElMessage.success(res.message)
   router.push('/assessment/result')
 }
 </script>
@@ -33,7 +33,7 @@ function submit() {
     <div class="page-head">
       <div>
         <h1 class="page-title">职业意向测评</h1>
-        <p class="page-desc">一次展示全部启用题；中途离开不保留半份答案；计分不调用大模型。</p>
+        <p class="page-desc">请一次性完成全部题目。中途离开不会保存半份答卷；计分由系统规则完成。</p>
       </div>
     </div>
 

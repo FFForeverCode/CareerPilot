@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { API } from '@/mock/api.js'
+import { chatApi } from '@/api'
 import { useAuthStore } from '@/stores/auth'
 import { TEXTS } from '@/constants/texts'
 
@@ -10,7 +10,7 @@ const router = useRouter()
 const auth = useAuthStore()
 const userId = auth.user!.id
 
-const page = ref(API.getChatPage(userId))
+const page = ref(chatApi.getChatPage(userId))
 const sessionId = ref<number | null>(null)
 const titleInput = ref('')
 const content = ref('')
@@ -18,18 +18,18 @@ const tick = ref(0)
 
 const sessions = computed(() => {
   tick.value
-  return page.value.ok ? page.value.data.sessions : []
+  return page.value.success ? ((page.value.data as any)?.sessions || []) : []
 })
-const needAssessment = computed(() => page.value.ok && page.value.data.needAssessment)
-const assistantOn = computed(() => page.value.ok && page.value.data.assistantOn)
-const mockOn = computed(() => page.value.ok && page.value.data.mockOn)
+const needAssessment = computed(() => page.value.success && !!(page.value.data as any)?.needAssessment)
+const assistantOn = computed(() => page.value.success && !!(page.value.data as any)?.assistantOn)
+const mockOn = computed(() => page.value.success && !!(page.value.data as any)?.mockOn)
 const messages = computed(() => {
   tick.value
-  return sessionId.value ? API.messagesOf(sessionId.value) : []
+  return sessionId.value ? chatApi.listMessages(sessionId.value) : []
 })
 const pre = computed(() => {
   tick.value
-  return API.planPreconditions(userId)
+  return chatApi.planPreconditions(userId)
 })
 const canGenerate = computed(() => pre.value.missing.length === 0 && assistantOn.value)
 const currentSession = computed(() => sessions.value.find((s: any) => s.id === sessionId.value) || null)
@@ -43,20 +43,20 @@ watch(
 )
 
 function refresh() {
-  page.value = API.getChatPage(userId)
+  page.value = chatApi.getChatPage(userId)
   tick.value++
 }
 
 function createSession() {
-  const res = API.createSession(userId, titleInput.value)
-  if (!res.ok) {
-    ElMessage.error(res.msg)
+  const res = chatApi.createSession(userId, titleInput.value)
+  if (!res.success) {
+    ElMessage.error(res.message)
     return
   }
   titleInput.value = ''
   refresh()
-  sessionId.value = res.data.id
-  ElMessage.success(res.msg)
+  sessionId.value = (res.data as any).id
+  ElMessage.success(res.message)
 }
 
 async function removeSession(id: number) {
@@ -69,14 +69,14 @@ async function removeSession(id: number) {
   } catch {
     return
   }
-  const res = API.deleteSession(userId, id)
-  if (!res.ok) {
-    ElMessage.error(res.msg)
+  const res = chatApi.deleteSession(userId, id)
+  if (!res.success) {
+    ElMessage.error(res.message)
     return
   }
   if (sessionId.value === id) sessionId.value = null
   refresh()
-  ElMessage.success(res.msg)
+  ElMessage.success(res.message)
 }
 
 function send() {
@@ -85,14 +85,14 @@ function send() {
     return
   }
   const text = content.value
-  const res = API.sendMessage(userId, sessionId.value, text)
-  if (!res.ok) {
-    ElMessage.error(res.msg)
+  const res = chatApi.sendMessage(userId, sessionId.value, text)
+  if (!res.success) {
+    ElMessage.error(res.message)
     return
   }
   content.value = ''
   refresh()
-  ElMessage.success(res.msg)
+  ElMessage.success(res.message)
 }
 
 function generate() {
@@ -100,13 +100,13 @@ function generate() {
     ElMessage.error('请先选择会话。')
     return
   }
-  const res = API.generatePlan(userId, sessionId.value)
-  if (!res.ok) {
-    ElMessage.error(res.msg)
+  const res = chatApi.generatePlan(userId, sessionId.value)
+  if (!res.success) {
+    ElMessage.error(res.message)
     return
   }
-  ElMessage.success(res.msg)
-  router.push(`/plans/${res.data.id}`)
+  ElMessage.success(res.message)
+  router.push(`/plans/${(res.data as any).id}`)
 }
 </script>
 
@@ -115,6 +115,9 @@ function generate() {
     <div class="declaration">{{ TEXTS.T01 }}</div>
     <div v-if="needAssessment" class="notice notice-warn" style="margin-top: 12px">{{ TEXTS.T04 }}</div>
     <div v-if="mockOn" class="notice notice-warn" style="margin-top: 12px">{{ TEXTS.T05 }}</div>
+    <div v-else-if="assistantOn" class="notice notice-info" style="margin-top: 12px">
+      当前未开启模拟回复。请联系管理员在「模型参数」中打开「模拟回复开关」后，再发送消息或生成方案。
+    </div>
     <div v-if="!assistantOn" class="card" style="margin-top: 14px">
       <div class="empty" style="font-size: 18px; padding: 48px 16px">{{ TEXTS.T08 }}</div>
     </div>

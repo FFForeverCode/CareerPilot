@@ -154,11 +154,19 @@ AI智能体可根据用户职业档案和岗位信息调用相关业务工具，
 | --- | --- | --- |
 | 页面原型 | 已完成（2026-11-11） | `prototype/` |
 | 数据库设计 | 已完成（2026-11-12），本机 SQLite 建库与验收查询验证通过 | `文档/04-数据库设计/` |
-| Vue 3 前端 | 进行中（2026-11-12）：12 路由假数据可点，`npm run build` 通过 | `frontend/` |
-| 接口说明 | V0.1 能力合同已写 | `文档/05-接口设计/接口说明.md` |
-| Spring Boot 工程、运行时 `career.db` | 未开始 | — |
+| Vue 3 前端 | 进行中（2026-11-20）：12 路由假数据可点；全量 API 门面；矩阵图 1～13 截图素材已齐 | `frontend/`、`frontend/screenshots/` |
+| 接口说明 | V0.2（能力合同 + 前端封装对照，含 admin/teacher） | `文档/05-接口设计/接口说明.md` |
+| Spring Boot 工程、运行时 `career.db` | 未开始（第 4 周优先） | — |
 
-前端启动：`cd frontend && npm install && npm run dev`。演示账号见 `frontend/README.md`。
+前端启动（PowerShell 若禁脚本请用 `npm.cmd`）：
+
+```powershell
+cd frontend
+npm.cmd install
+npm.cmd run dev
+```
+
+演示账号见 `frontend/README.md`。走查清单：`frontend/tools/walkthrough-checklist.md`。截图对照：`frontend/screenshots/README.md`。快捷登录：`/login?demo=student|teacher|admin`。
 
 ## 仓库
 

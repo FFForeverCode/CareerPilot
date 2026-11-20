@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { API } from '@/mock/api.js'
+import { adminApi } from '@/api'
 import { CAREER_DATA } from '@/mock/seed.js'
 
-const qData = ref(API.adminQuestions())
-const dData = ref(API.adminDirections())
+const qData = ref(adminApi.listQuestions())
+const dData = ref(adminApi.listDirections())
 const tab = ref<'questions' | 'directions'>('questions')
 
 const qForm = reactive({
@@ -26,56 +26,56 @@ const dForm = reactive({
 })
 
 function refresh() {
-  qData.value = API.adminQuestions()
-  dData.value = API.adminDirections()
+  qData.value = adminApi.listQuestions()
+  dData.value = adminApi.listDirections()
 }
 
 function addQuestion() {
-  const res = API.addQuestion({ ...qForm })
-  if (!res.ok) {
-    ElMessage.error(res.msg)
+  const res = adminApi.addQuestion({ ...qForm })
+  if (!res.success) {
+    ElMessage.error(res.message)
     return
   }
-  ElMessage.success(res.msg)
+  ElMessage.success(res.message)
   Object.assign(qForm, { stem: '', optionA: '', typeA: 'R', optionB: '', typeB: 'I' })
   refresh()
 }
 
 function toggleQuestion(id: number, enabled: boolean) {
-  const res = API.setQuestionEnabled(id, enabled)
-  if (!res.ok) {
-    ElMessage.error(res.msg)
+  const res = adminApi.setQuestionEnabled(id, enabled)
+  if (!res.success) {
+    ElMessage.error(res.message)
     return
   }
-  ElMessage.success(res.msg)
+  ElMessage.success(res.message)
   refresh()
 }
 
 function addDirection() {
   const tags = dForm.tagsText.split(',').map((s) => s.trim()).filter(Boolean)
-  const res = API.addDirection({
+  const res = adminApi.addDirection({
     name: dForm.name,
     category: dForm.category,
     tags,
     summary: dForm.summary,
     actions: [dForm.action1, dForm.action2],
   })
-  if (!res.ok) {
-    ElMessage.error(res.msg)
+  if (!res.success) {
+    ElMessage.error(res.message)
     return
   }
-  ElMessage.success(res.msg)
+  ElMessage.success(res.message)
   Object.assign(dForm, { name: '', category: '就业', tagsText: 'I,C', summary: '', action1: '', action2: '' })
   refresh()
 }
 
 function setStatus(id: number, status: boolean) {
-  const res = API.setDirectionStatus(id, status)
-  if (!res.ok) {
-    ElMessage.error(res.msg)
+  const res = adminApi.setDirectionStatus(id, status)
+  if (!res.success) {
+    ElMessage.error(res.message)
     return
   }
-  ElMessage.success(res.msg)
+  ElMessage.success(res.message)
   refresh()
 }
 </script>
@@ -85,7 +85,7 @@ function setStatus(id: number, status: boolean) {
     <div class="page-head">
       <div>
         <h1 class="page-title">题目与方向</h1>
-        <p class="page-desc">管理员维护。已作答题只能停用；方向无薪资字段。</p>
+        <p class="page-desc">维护测评题目与发展方向库。已作答题目仅可停用，不可删除。</p>
       </div>
     </div>
 
@@ -98,23 +98,19 @@ function setStatus(id: number, status: boolean) {
       <div class="card">
         <div class="card-head">
           <div class="card-title">题目列表</div>
-          <div class="card-sub">启用 {{ qData.data?.enabledCount || 0 }} 道（学生端少于 18 道显示「题目维护中」）</div>
+          <div class="card-sub">当前启用 {{ (qData.data as any)?.enabledCount || 0 }} 道题目</div>
         </div>
         <table>
           <thead><tr><th>#</th><th>题干</th><th>A</th><th>B</th><th>状态</th><th>操作</th></tr></thead>
           <tbody>
-            <tr v-for="q in qData.data?.questions || []" :key="q.id">
+            <tr v-for="q in (qData.data as any)?.questions || []" :key="q.id">
               <td>{{ q.id }}</td>
               <td>{{ q.stem }}</td>
               <td>{{ q.typeA }}</td>
               <td>{{ q.typeB }}</td>
               <td>{{ q.enabled ? '启用' : '停用' }}{{ q.answered ? ' · 已作答' : '' }}</td>
               <td>
-                <button
-                  class="btn btn-ghost btn-sm"
-                  type="button"
-                  @click="toggleQuestion(q.id, !q.enabled)"
-                >
+                <button class="btn btn-ghost btn-sm" type="button" @click="toggleQuestion(q.id, !q.enabled)">
                   {{ q.enabled ? '停用' : '启用' }}
                 </button>
               </td>
@@ -147,7 +143,7 @@ function setStatus(id: number, status: boolean) {
         <table>
           <thead><tr><th>名称</th><th>类别</th><th>标签</th><th>状态</th><th>操作</th></tr></thead>
           <tbody>
-            <tr v-for="d in dData.data?.directions || []" :key="d.id">
+            <tr v-for="d in (dData.data as any)?.directions || []" :key="d.id">
               <td>{{ d.name }}</td>
               <td>{{ d.category }}</td>
               <td>{{ d.tags.join(',') }}</td>

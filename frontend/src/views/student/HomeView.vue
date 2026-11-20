@@ -1,35 +1,45 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { API } from '@/mock/api.js'
+import { assessmentApi, chatApi, metaApi, profileApi } from '@/api'
 import { useAuthStore } from '@/stores/auth'
 import { TEXTS } from '@/constants/texts'
 
 const router = useRouter()
 const auth = useAuthStore()
-const userId = auth.user!.id
 
-const profileRes = API.getProfile(userId)
-const profile = profileRes.ok ? profileRes.data.profile : null
-const resultRes = API.getResultPage(userId)
-const latest = resultRes.ok ? resultRes.data.latest : null
-const anns = API.announcementsForStudent()
-const sessions = API.listSessions(userId)
+const profile = ref<any>(null)
+const latest = ref<any>(null)
+const anns = ref<any[]>([])
+const sessions = ref<any[]>([])
+
+function load() {
+  const userId = auth.user!.id
+  const profileRes = profileApi.getProfile(userId)
+  profile.value = profileRes.success ? profileRes.data?.profile : null
+  const resultRes = assessmentApi.getResults(userId)
+  latest.value = resultRes.success ? resultRes.data?.latest : null
+  anns.value = metaApi.announcementsForStudent()
+  sessions.value = chatApi.listSessions(userId)
+}
+
+onMounted(load)
 
 const missing = computed(() => {
-  if (!profile) return [] as string[]
+  const p = profile.value
+  if (!p) return [] as string[]
   const m: string[] = []
-  if (!profile.name) m.push('姓名')
-  if (!profile.grade) m.push('年级')
-  if (!profile.major) m.push('专业')
-  if (!profile.preference) m.push('去向偏好')
+  if (!p.name) m.push('姓名')
+  if (!p.grade) m.push('年级')
+  if (!p.major) m.push('专业')
+  if (!p.preference) m.push('去向偏好')
   return m
 })
 
-const complete = !!(profile && profile.completeFlag === 1)
+const complete = computed(() => !!(profile.value && profile.value.completeFlag === 1))
 
 function typeName(code: string) {
-  return API.typeName(code)
+  return metaApi.typeName(code)
 }
 </script>
 
@@ -40,7 +50,7 @@ function typeName(code: string) {
       <div class="row" style="justify-content: space-between">
         <div>
           <h2>你好，{{ auth.user?.realName }}</h2>
-          <p>从档案、测评到规划方案，按主链路一步步走完。</p>
+          <p>欢迎使用 CareerPilot。可按档案、测评、方向参考与规划对话的顺序推进。</p>
         </div>
         <span class="badge badge-demo">{{ TEXTS.T02 }}</span>
       </div>

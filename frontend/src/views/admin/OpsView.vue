@@ -2,7 +2,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { API } from '@/mock/api.js'
+import { adminApi } from '@/api'
 
 const route = useRoute()
 const router = useRouter()
@@ -12,11 +12,11 @@ const tab = computed({
   set: (v: string) => router.replace({ path: '/admin/ops', query: { tab: v } }),
 })
 
-const annData = ref(API.adminAnnouncements())
-const cfgData = ref(API.getConfig())
-const statsData = ref(API.stats())
+const annData = ref(adminApi.listAnnouncements())
+const cfgData = ref(adminApi.getConfig())
+const statsData = ref(adminApi.getStats())
 const logFilter = reactive({ userId: '', action: '' })
-const logData = ref(API.listLogs({}))
+const logData = ref(adminApi.listLogs({}))
 
 const annForm = reactive({ title: '', content: '', pinned: false })
 const cfgForm = reactive({
@@ -31,64 +31,64 @@ const cfgForm = reactive({
 watch(
   cfgData,
   (v) => {
-    if (v.ok) Object.assign(cfgForm, v.data.config)
+    if (v.success && (v.data as any)?.config) Object.assign(cfgForm, (v.data as any).config)
   },
   { immediate: true },
 )
 
 function refreshAll() {
-  annData.value = API.adminAnnouncements()
-  cfgData.value = API.getConfig()
-  statsData.value = API.stats()
-  logData.value = API.listLogs({
+  annData.value = adminApi.listAnnouncements()
+  cfgData.value = adminApi.getConfig()
+  statsData.value = adminApi.getStats()
+  logData.value = adminApi.listLogs({
     userId: logFilter.userId || null,
     action: logFilter.action || '',
   })
 }
 
 function addAnn() {
-  const res = API.addAnnouncement({ ...annForm })
-  if (!res.ok) {
-    ElMessage.error(res.msg)
+  const res = adminApi.addAnnouncement({ ...annForm })
+  if (!res.success) {
+    ElMessage.error(res.message)
     return
   }
-  ElMessage.success(res.msg)
+  ElMessage.success(res.message)
   Object.assign(annForm, { title: '', content: '', pinned: false })
   refreshAll()
 }
 
 function setOffline(id: number, offline: boolean) {
-  const res = API.setAnnouncementOffline(id, offline)
-  if (!res.ok) return ElMessage.error(res.msg)
-  ElMessage.success(res.msg)
+  const res = adminApi.setAnnouncementOffline(id, offline)
+  if (!res.success) return ElMessage.error(res.message)
+  ElMessage.success(res.message)
   refreshAll()
 }
 
 function togglePin(id: number) {
-  const res = API.toggleAnnouncementPin(id)
-  if (!res.ok) return ElMessage.error(res.msg)
-  ElMessage.success(res.msg)
+  const res = adminApi.toggleAnnouncementPin(id)
+  if (!res.success) return ElMessage.error(res.message)
+  ElMessage.success(res.message)
   refreshAll()
 }
 
 function saveCfg() {
-  const res = API.saveConfig({ ...cfgForm })
-  if (!res.ok) return ElMessage.error(res.msg)
-  ElMessage.success(res.msg)
+  const res = adminApi.saveConfig({ ...cfgForm })
+  if (!res.success) return ElMessage.error(res.message)
+  ElMessage.success(res.message)
   refreshAll()
 }
 
 function filterLogs() {
-  logData.value = API.listLogs({
+  logData.value = adminApi.listLogs({
     userId: logFilter.userId || null,
     action: logFilter.action || '',
   })
 }
 
 function resetPwd(id: number) {
-  const res = API.resetPassword(id)
-  if (!res.ok) return ElMessage.error(res.msg)
-  ElMessage.success(res.msg)
+  const res = adminApi.resetPassword(id)
+  if (!res.success) return ElMessage.error(res.message)
+  ElMessage.success(res.message)
   refreshAll()
 }
 </script>
@@ -98,7 +98,7 @@ function resetPwd(id: number) {
     <div class="page-head">
       <div>
         <h1 class="page-title">公告、参数、统计、日志</h1>
-        <p class="page-desc">参数页没有密钥输入框；统计只有四个数字卡片。</p>
+        <p class="page-desc">发布公告、配置助手参数，并查看注册与方案等运营统计。</p>
       </div>
     </div>
 
@@ -112,7 +112,7 @@ function resetPwd(id: number) {
     <template v-if="tab === 'announce'">
       <div class="card">
         <div class="card-head"><div class="card-title">公告列表</div></div>
-        <div v-for="a in annData.data?.announcements || []" :key="a.id" class="ann-item" style="margin-bottom: 12px">
+        <div v-for="a in (annData.data as any)?.announcements || []" :key="a.id" class="ann-item" style="margin-bottom: 12px">
           <div class="ann-title">
             <span v-if="a.pinned" class="badge badge-warn">置顶</span>
             <span v-if="a.offline" class="badge">已下线</span>
@@ -138,7 +138,7 @@ function resetPwd(id: number) {
 
     <template v-else-if="tab === 'config'">
       <div class="card">
-        <div class="notice notice-accent" style="margin-bottom: 14px">页面和接口都不出现密钥。密钥只放环境变量。</div>
+        <div class="notice notice-accent" style="margin-bottom: 14px">模型密钥由服务器环境变量管理，不会在本页展示或保存。</div>
         <div class="form-grid">
           <div class="field span-2"><label>接口地址</label><input v-model="cfgForm.apiUrl" type="text" /></div>
           <div class="field"><label>模型名</label><input v-model="cfgForm.modelName" type="text" /></div>
@@ -152,29 +152,29 @@ function resetPwd(id: number) {
     </template>
 
     <template v-else-if="tab === 'stats'">
-      <div class="stat-grid" v-if="statsData.ok">
+      <div class="stat-grid" v-if="statsData.success">
         <div class="stat-card">
           <div class="st-label">注册学生数</div>
-          <div class="st-value">{{ statsData.data.studentCount }}</div>
-          <div class="st-foot">含停用 {{ statsData.data.disabledCount }}</div>
+          <div class="st-value">{{ (statsData.data as any).studentCount }}</div>
+          <div class="st-foot">含停用 {{ (statsData.data as any).disabledCount }}</div>
         </div>
         <div class="stat-card">
           <div class="st-label">档案完成数</div>
-          <div class="st-value">{{ statsData.data.completeCount }}</div>
+          <div class="st-value">{{ (statsData.data as any).completeCount }}</div>
           <div class="st-foot">四项必填齐全</div>
         </div>
         <div class="stat-card">
           <div class="st-label">测评人数</div>
-          <div class="st-value">{{ statsData.data.assessedCount }}</div>
+          <div class="st-value">{{ (statsData.data as any).assessedCount }}</div>
           <div class="st-foot">至少一次测评</div>
         </div>
         <div class="stat-card">
           <div class="st-label">方案份数</div>
-          <div class="st-value">{{ statsData.data.planCount }}</div>
+          <div class="st-value">{{ (statsData.data as any).planCount }}</div>
           <div class="st-foot">已保存方案</div>
         </div>
       </div>
-      <div class="notice notice-info" style="margin-top: 16px">统计页不能点进某一次聊天，不做导出报表。</div>
+      <div class="notice notice-info" style="margin-top: 16px">本页仅展示汇总指标，不提供单次对话详情与报表导出。</div>
     </template>
 
     <template v-else>
@@ -183,7 +183,7 @@ function resetPwd(id: number) {
         <div class="row" style="margin-bottom: 12px">
           <select v-model="logFilter.userId">
             <option value="">全部学生</option>
-            <option v-for="s in logData.data?.students || []" :key="s.id" :value="String(s.id)">{{ s.name }}（{{ s.studentNo }}）</option>
+            <option v-for="s in (logData.data as any)?.students || []" :key="s.id" :value="String(s.id)">{{ s.name }}（{{ s.studentNo }}）</option>
           </select>
           <select v-model="logFilter.action">
             <option value="">全部动作</option>
@@ -200,7 +200,7 @@ function resetPwd(id: number) {
         <table>
           <thead><tr><th>时间</th><th>操作者</th><th>动作</th><th>对象</th><th>IP</th></tr></thead>
           <tbody>
-            <tr v-for="l in logData.data?.logs || []" :key="l.id">
+            <tr v-for="l in (logData.data as any)?.logs || []" :key="l.id">
               <td>{{ l.at }}</td>
               <td>{{ l.operator }}</td>
               <td>{{ l.action }}</td>
@@ -216,7 +216,7 @@ function resetPwd(id: number) {
         <div class="card-head"><div class="card-title">重置学生密码并解锁</div></div>
         <div class="row" style="flex-wrap: wrap">
           <button
-            v-for="s in logData.data?.students || []"
+            v-for="s in (logData.data as any)?.students || []"
             :key="'r' + s.id"
             class="btn btn-ghost btn-sm"
             type="button"

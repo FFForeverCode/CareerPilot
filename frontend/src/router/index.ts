@@ -31,15 +31,28 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    /* 方案详情：学生与老师共用路径，按角色切换菜单壳 */
+    path: '/plans/:id',
+    component: () => import('@/layouts/RoleAwareLayout.vue'),
+    meta: { roles: ['student', 'teacher'] },
+    children: [
+      {
+        path: '',
+        name: 'plan-detail',
+        component: () => import('@/views/plan/PlanDetailView.vue'),
+        meta: {
+          title: '方案详情',
+          crumb: '方案详情',
+          nav: 'plans',
+          roles: ['student', 'teacher'],
+        },
+      },
+    ],
+  },
+  {
     path: '/',
     component: () => import('@/layouts/ManageLayout.vue'),
     children: [
-      {
-        path: 'plans/:id',
-        name: 'plan-detail',
-        component: () => import('@/views/plan/PlanDetailView.vue'),
-        meta: { title: '方案详情', crumb: '方案详情', nav: 'plans', roles: ['student', 'teacher'] },
-      },
       {
         path: 'teacher/students',
         name: 'teacher-students',
@@ -66,6 +79,9 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior() {
+    return { top: 0 }
+  },
 })
 
 router.beforeEach((to) => {
@@ -73,6 +89,8 @@ router.beforeEach((to) => {
   auth.syncFromMock()
 
   if (to.meta.public) {
+    /* ?demo= 用于走查快捷切角色，允许已登录时仍进入登录页 */
+    if (to.query.demo) return true
     if (auth.user) return HOME_BY_ROLE[auth.user.role]
     return true
   }
@@ -80,7 +98,7 @@ router.beforeEach((to) => {
   if (!auth.user) return '/login'
 
   const roles = (to.meta.roles as string[] | undefined)
-    || (to.matched.find((r) => r.meta.roles)?.meta.roles as string[] | undefined)
+    || (to.matched.map((r) => r.meta.roles as string[] | undefined).find(Boolean))
 
   if (roles && !roles.includes(auth.user.role)) {
     ElMessage.error('没有权限访问这个页面。')

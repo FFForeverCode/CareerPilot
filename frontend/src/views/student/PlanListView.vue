@@ -2,16 +2,16 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { API } from '@/mock/api.js'
+import { planApi } from '@/api'
 import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
 const auth = useAuthStore()
 const userId = auth.user!.id
-const data = ref(API.listPlans(userId))
+const data = ref(planApi.listPlans(userId))
 
 function refresh() {
-  data.value = API.listPlans(userId)
+  data.value = planApi.listPlans(userId)
 }
 
 async function remove(id: number) {
@@ -24,12 +24,12 @@ async function remove(id: number) {
   } catch {
     return
   }
-  const res = API.deletePlan(userId, id)
-  if (!res.ok) {
-    ElMessage.error(res.msg)
+  const res = planApi.deletePlan(userId, id)
+  if (!res.success) {
+    ElMessage.error(res.message)
     return
   }
-  ElMessage.success(res.msg)
+  ElMessage.success(res.message)
   refresh()
 }
 </script>
@@ -39,19 +39,19 @@ async function remove(id: number) {
     <div class="page-head">
       <div>
         <h1 class="page-title">我的方案</h1>
-        <p class="page-desc">最多 5 份。列表显示时间、来源和有无评语。</p>
+        <p class="page-desc">每位学生最多保存 5 份方案，可查看来源与评语状态。</p>
       </div>
     </div>
 
-    <div v-if="!data.ok" class="card"><div class="empty">{{ data.msg }}</div></div>
-    <div v-else-if="!data.data.plans.length" class="card"><div class="empty">还没有保存的方案</div></div>
+    <div v-if="!data.success" class="card"><div class="empty">{{ data.message }}</div></div>
+    <div v-else-if="!(data.data as any)?.plans?.length" class="card"><div class="empty">还没有保存的方案</div></div>
     <div v-else class="plan-list">
-      <div v-for="p in data.data.plans" :key="p.id" class="plan-row">
+      <div v-for="p in (data.data as any).plans" :key="p.id" class="plan-row">
         <div class="pr-main">
           <div class="pr-title">方案 #{{ p.id }}</div>
           <div class="pr-meta">
             <span>{{ p.createdAt }}</span>
-            <span>来源：{{ p.source === 'mock' ? '模拟' : '模型' }}</span>
+            <span>来源：{{ p.source === 'mock' ? '模拟回复' : '模型生成' }}</span>
             <span>{{ p.hasComment ? '有评语' : '暂无评语' }}</span>
           </div>
         </div>
@@ -60,7 +60,7 @@ async function remove(id: number) {
           <button class="btn btn-danger btn-sm" type="button" @click="remove(p.id)">删除</button>
         </div>
       </div>
-      <div class="hint" style="margin-top: 8px">已保存 {{ data.data.plans.length }} / {{ data.data.limit }} 份</div>
+      <div class="hint" style="margin-top: 8px">已保存 {{ (data.data as any).plans.length }} / {{ (data.data as any).limit }} 份</div>
     </div>
   </div>
 </template>

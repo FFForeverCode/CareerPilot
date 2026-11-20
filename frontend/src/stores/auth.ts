@@ -1,33 +1,15 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { API } from '@/mock/api.js'
+import { authApi } from '@/api'
 import { Store } from '@/mock/store.js'
 import { HOME_BY_ROLE } from '@/constants/texts'
-
-export type Role = 'student' | 'teacher' | 'admin'
-
-export interface AuthUser {
-  id: number
-  studentNo: string
-  realName: string
-  role: Role
-  status: number
-}
+import type { Role, UserInfo } from '@/api'
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref<AuthUser | null>(null)
+  const user = ref<UserInfo | null>(null)
 
   function syncFromMock() {
-    const u = API.currentUser()
-    user.value = u
-      ? {
-          id: u.id,
-          studentNo: u.studentNo,
-          realName: u.realName,
-          role: u.role,
-          status: u.status,
-        }
-      : null
+    user.value = authApi.currentUser()
   }
 
   syncFromMock()
@@ -37,22 +19,36 @@ export const useAuthStore = defineStore('auth', () => {
   const homePath = computed(() => (user.value ? HOME_BY_ROLE[user.value.role] : '/login'))
 
   function login(studentNo: string, password: string) {
-    const res = API.login({ studentNo, password })
-    if (res.ok) syncFromMock()
-    return res
+    const res = authApi.login(studentNo, password)
+    if (res.success) {
+      syncFromMock()
+      if (res.data?.token) {
+        localStorage.setItem('careerpilot-token', res.data.token)
+      }
+    }
+    return {
+      ok: res.success,
+      msg: res.message,
+      data: res.data?.user
+        ? { id: res.data.user.id, realName: res.data.user.realName, role: res.data.user.role as Role }
+        : null,
+    }
   }
 
   function register(studentNo: string, password: string) {
-    return API.register({ studentNo, password })
+    const res = authApi.register(studentNo, password)
+    return { ok: res.success, msg: res.message, data: res.data }
   }
 
   function logout() {
-    API.logout()
+    authApi.logout()
+    localStorage.removeItem('careerpilot-token')
     user.value = null
   }
 
   function resetDemoData() {
     Store.reset()
+    localStorage.removeItem('careerpilot-token')
     user.value = null
   }
 

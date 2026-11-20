@@ -10,24 +10,34 @@ Vue 3 + TypeScript + Vite + Vue Router + Pinia + Axios + Element Plus
 
 需要本机已安装 Node.js 18+（推荐 LTS）。
 
+> PowerShell 若提示「禁止运行脚本」，请用 `npm.cmd`（或先执行  
+> `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`）。
+
 ```powershell
 cd frontend
-npm install
-npm run dev
+npm.cmd install
+npm.cmd run dev
 ```
 
 浏览器打开终端提示的本地地址（默认 http://127.0.0.1:5173）。
 
 ```powershell
-npm run build    # 生产构建
-npm run preview  # 预览构建产物
+npm.cmd run build    # 生产构建
+npm.cmd run preview  # 预览构建产物
 ```
 
-开发代理：`/api` → `http://localhost:8080`（第 5 周接 Spring Boot 时使用）。当前业务调用走 `src/mock/`，Axios 客户端在 `src/api/client.ts` 预留。
+第 3 周走查勾选：`tools/walkthrough-checklist.md`。矩阵截图素材：`screenshots/`（见该目录 README）。
+
+开发代理：`/api` → `http://localhost:8080`（第 5 周接 Spring Boot 时使用）。页面统一经 `src/api` 门面调用；当前实现仍落在 `src/mock/`，Axios 客户端在 `src/api/client.ts` 预留。
 
 ## 演示账号
 
-密码不写在页面常驻区域，开发期登录页提供快捷登录按钮。
+密码不写在页面常驻区域，开发期登录页提供快捷登录按钮。也可直接打开：
+
+- `/login?demo=student`
+- `/login?demo=teacher`
+- `/login?demo=admin`
+- 老师打开某生：`/teacher/students?studentId=1`
 
 | 角色 | 学号 | 密码 |
 | --- | --- | --- |

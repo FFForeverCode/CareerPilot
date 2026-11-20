@@ -204,8 +204,8 @@
 
       announcements: [
         {
-          id: 1, title: '欢迎使用 CareerPilot（教学演示）', pinned: true, offline: false, at: '2026-11-10 09:00',
-          content: '本系统是软件实训课程的教学演示项目，页面里的学生、老师、方向和方案均为虚构数据。\n系统提供学业档案、职业意向测评、方向参考和规划对话，结果只作为规划参考，不保证录取或就业。'
+          id: 1, title: '欢迎使用 CareerPilot', pinned: true, offline: false, at: '2026-11-10 09:00',
+          content: 'CareerPilot 面向在校学生提供学业档案、职业意向测评、发展方向参考与规划对话服务。\n结果仅供规划参考（教学演示），不保证录取或就业，如有需要请咨询就业指导老师。'
         },
         {
           id: 2, title: '测评结果怎么用', pinned: false, offline: false, at: '2026-11-10 09:05',
@@ -215,7 +215,7 @@
 
       config: {
         apiUrl: 'https://api.example.com/v1/chat',
-        modelName: 'demo-chat-model',
+        modelName: 'career-assistant',
         timeout: 30,
         assistantOn: true,
         mockOn: false,

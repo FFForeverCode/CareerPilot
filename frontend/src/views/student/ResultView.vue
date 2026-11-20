@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { API } from '@/mock/api.js'
+import { assessmentApi, metaApi } from '@/api'
 import { CAREER_DATA } from '@/mock/seed.js'
 import { useAuthStore } from '@/stores/auth'
 import { TEXTS } from '@/constants/texts'
 
 const router = useRouter()
 const auth = useAuthStore()
-const res = API.getResultPage(auth.user!.id)
-const latest = res.ok ? res.data.latest : null
-const list = res.ok ? res.data.list : []
+const res = assessmentApi.getResults(auth.user!.id)
+const latest = res.success ? (res.data?.latest as any) : null
+const list = res.success ? ((res.data?.list as any[]) || []) : []
 const maxScore = latest ? Math.max(...Object.values(latest.scores as Record<string, number>)) : 1
 
 function typeName(code: string) {
-  return API.typeName(code)
+  return metaApi.typeName(code)
 }
 </script>
 
@@ -22,7 +22,7 @@ function typeName(code: string) {
     <div class="page-head">
       <div>
         <h1 class="page-title">测评结果</h1>
-        <p class="page-desc">只看自己的结果；推荐和对话使用最近一次。</p>
+        <p class="page-desc">仅展示本人测评结果；方向推荐与规划对话均以最近一次结果为准。</p>
       </div>
       <div class="page-actions">
         <button class="btn btn-ghost" type="button" @click="router.push('/assessment')">再测一次</button>
