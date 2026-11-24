@@ -1,0 +1,445 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1450" viewBox="0 0 2200 1450">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif;fill:#1F2937}.tname{font-size:13px;font-weight:700;fill:#FFFFFF}.tcn{font-size:11px;fill:#DDE7F0}.fld{font-size:12px}.typ{font-size:11px;fill:#6B7280}.key{font-size:11px;font-weight:700}.rel{font-size:12px;fill:#6B7280}.rel-dash{stroke-dasharray:6 5}</style>
+<text x="40" y="42" style="font-size:26px;font-weight:700;fill:#1F4E79">CareerPilot 数据库 ER 图</text>
+<text x="40" y="68" style="font-size:14px;fill:#6B7280">项目 SE2313-01 · 基于 AI 智能体的大学生职业生涯规划系统 · 2026-11-18 · 共 14 张表</text>
+<path d="M 220 350 L 220 470" fill="none" stroke="#7A8899" stroke-width="1.6"/>
+<text x="228" y="410" class="rel">1:1</text>
+<path d="M 400 300 L 445 300 L 445 560 L 470 560" fill="none" stroke="#7A8899" stroke-width="1.6"/>
+<text x="432" y="285" class="rel">1:N</text>
+<path d="M 200 350 L 200 410 L 1290 410 L 1290 190 L 1330 190" fill="none" stroke="#7A8899" stroke-width="1.6"/>
+<text x="640" y="402" class="rel">1:N</text>
+<path d="M 240 350 L 240 430 L 1940 430 L 1940 270" fill="none" stroke="#7A8899" stroke-width="1.6"/>
+<text x="1420" y="424" class="rel">1:N</text>
+<path d="M 1080 350 L 1080 470" fill="none" stroke="#7A8899" stroke-width="1.6"/>
+<text x="1088" y="415" class="rel">1:N</text>
+<path d="M 830 600 L 862 600 L 862 530 L 900 530" fill="none" stroke="#7A8899" stroke-width="1.6"/>
+<text x="845" y="618" class="rel">1:N</text>
+<path d="M 1470 270 L 1470 470" fill="none" stroke="#7A8899" stroke-width="1.6"/>
+<text x="1478" y="375" class="rel">1:N</text>
+<path d="M 1690 190 L 1760 190" fill="none" stroke="#7A8899" stroke-width="1.6"/>
+<text x="1698" y="182" class="rel">0..1</text>
+<path d="M 1940 270 L 1940 470" fill="none" stroke="#7A8899" stroke-width="1.6"/>
+<text x="1948" y="375" class="rel">1:1</text>
+<path d="M 830 940 L 900 940" fill="none" stroke="#7A8899" stroke-width="1.6"/>
+<text x="848" y="932" class="rel">1:N</text>
+<path d="M 400 320 L 430 320 L 430 1150 L 1080 1150 L 1080 1000" fill="none" stroke="#7A8899" stroke-width="1.6"/>
+<text x="600" y="1143" class="rel">1:N</text>
+<path d="M 650 750 L 650 880" fill="none" stroke="#7A8899" stroke-width="1.6" class="rel-dash"/>
+<text x="505" y="828" class="rel">规则推荐（无外键）</text>
+<path d="M 40 200 L 20 200 L 20 1290 L 40 1290" fill="none" stroke="#7A8899" stroke-width="1.6" class="rel-dash"/>
+<text x="44" y="1180" class="rel">0..1（可空，操作者）</text>
+<rect x="40" y="110" width="360" height="242" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 40 142 L 40 110 L 400 110 L 400 142 Z" fill="#1F4E79"/>
+<rect x="40" y="110" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="40" y="134" width="360" height="8" fill="#1F4E79"/>
+<text x="52" y="132" class="tname">sys_user</text>
+<text x="388" y="131" class="tcn" text-anchor="end">用户账号表</text>
+<rect x="41" y="142" width="358" height="20" fill="#F5F7FA"/>
+<text x="50" y="156" class="key" fill="#C47B3A">PK</text>
+<text x="92" y="156" class="fld">id</text>
+<text x="390" y="156" class="typ" text-anchor="end">INTEGER</text>
+<text x="50" y="176" class="key" fill="#C47B3A">U</text>
+<text x="92" y="176" class="fld">student_no</text>
+<text x="390" y="176" class="typ" text-anchor="end">TEXT(11)</text>
+<rect x="41" y="182" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="196" class="fld">password_hash</text>
+<text x="390" y="196" class="typ" text-anchor="end">TEXT(60)</text>
+<text x="92" y="216" class="fld">role</text>
+<text x="390" y="216" class="typ" text-anchor="end">TEXT(10)</text>
+<rect x="41" y="222" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="236" class="fld">real_name</text>
+<text x="390" y="236" class="typ" text-anchor="end">TEXT(20)</text>
+<text x="92" y="256" class="fld">status</text>
+<text x="390" y="256" class="typ" text-anchor="end">INTEGER</text>
+<rect x="41" y="262" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="276" class="fld">fail_count</text>
+<text x="390" y="276" class="typ" text-anchor="end">INTEGER</text>
+<text x="92" y="296" class="fld">locked_until</text>
+<text x="390" y="296" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="41" y="302" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="316" class="fld">created_at</text>
+<text x="390" y="316" class="typ" text-anchor="end">TEXT(19)</text>
+<text x="92" y="336" class="fld">updated_at</text>
+<text x="390" y="336" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="40" y="110" width="360" height="242" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="40" y="470" width="360" height="342" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 40 502 L 40 470 L 400 470 L 400 502 Z" fill="#1F4E79"/>
+<rect x="40" y="470" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="40" y="494" width="360" height="8" fill="#1F4E79"/>
+<text x="52" y="492" class="tname">student_profile</text>
+<text x="388" y="491" class="tcn" text-anchor="end">学业档案表</text>
+<rect x="41" y="502" width="358" height="20" fill="#F5F7FA"/>
+<text x="50" y="516" class="key" fill="#C47B3A">PK</text>
+<text x="92" y="516" class="fld">id</text>
+<text x="390" y="516" class="typ" text-anchor="end">INTEGER</text>
+<text x="50" y="536" class="key" fill="#C47B3A">FK</text>
+<text x="92" y="536" class="fld">user_id</text>
+<text x="390" y="536" class="typ" text-anchor="end">INTEGER</text>
+<rect x="41" y="542" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="556" class="fld">grade</text>
+<text x="390" y="556" class="typ" text-anchor="end">TEXT(10)</text>
+<text x="92" y="576" class="fld">major</text>
+<text x="390" y="576" class="typ" text-anchor="end">TEXT(40)</text>
+<rect x="41" y="582" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="596" class="fld">rank_band</text>
+<text x="390" y="596" class="typ" text-anchor="end">TEXT(10)</text>
+<text x="92" y="616" class="fld">preference</text>
+<text x="390" y="616" class="typ" text-anchor="end">TEXT(10)</text>
+<rect x="41" y="622" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="636" class="fld">gender</text>
+<text x="390" y="636" class="typ" text-anchor="end">TEXT(4)</text>
+<text x="92" y="656" class="fld">class_name</text>
+<text x="390" y="656" class="typ" text-anchor="end">TEXT(20)</text>
+<rect x="41" y="662" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="676" class="fld">phone</text>
+<text x="390" y="676" class="typ" text-anchor="end">TEXT(20)</text>
+<text x="92" y="696" class="fld">email</text>
+<text x="390" y="696" class="typ" text-anchor="end">TEXT(60)</text>
+<rect x="41" y="702" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="716" class="fld">city</text>
+<text x="390" y="716" class="typ" text-anchor="end">TEXT(20)</text>
+<text x="92" y="736" class="fld">intro</text>
+<text x="390" y="736" class="typ" text-anchor="end">TEXT(300)</text>
+<rect x="41" y="742" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="756" class="fld">complete_flag</text>
+<text x="390" y="756" class="typ" text-anchor="end">INTEGER</text>
+<text x="92" y="776" class="fld">created_at</text>
+<text x="390" y="776" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="41" y="782" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="796" class="fld">updated_at</text>
+<text x="390" y="796" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="40" y="470" width="360" height="342" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="900" y="110" width="360" height="242" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 900 142 L 900 110 L 1260 110 L 1260 142 Z" fill="#1F4E79"/>
+<rect x="900" y="110" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="900" y="134" width="360" height="8" fill="#1F4E79"/>
+<text x="912" y="132" class="tname">assessment_question</text>
+<text x="1248" y="131" class="tcn" text-anchor="end">测评题目表</text>
+<rect x="901" y="142" width="358" height="20" fill="#F5F7FA"/>
+<text x="910" y="156" class="key" fill="#C47B3A">PK</text>
+<text x="952" y="156" class="fld">id</text>
+<text x="1250" y="156" class="typ" text-anchor="end">INTEGER</text>
+<text x="952" y="176" class="fld">stem</text>
+<text x="1250" y="176" class="typ" text-anchor="end">TEXT(200)</text>
+<rect x="901" y="182" width="358" height="20" fill="#F5F7FA"/>
+<text x="952" y="196" class="fld">option_a</text>
+<text x="1250" y="196" class="typ" text-anchor="end">TEXT(100)</text>
+<text x="952" y="216" class="fld">option_b</text>
+<text x="1250" y="216" class="typ" text-anchor="end">TEXT(100)</text>
+<rect x="901" y="222" width="358" height="20" fill="#F5F7FA"/>
+<text x="952" y="236" class="fld">type_a</text>
+<text x="1250" y="236" class="typ" text-anchor="end">TEXT(1)</text>
+<text x="952" y="256" class="fld">type_b</text>
+<text x="1250" y="256" class="typ" text-anchor="end">TEXT(1)</text>
+<rect x="901" y="262" width="358" height="20" fill="#F5F7FA"/>
+<text x="952" y="276" class="fld">sort_no</text>
+<text x="1250" y="276" class="typ" text-anchor="end">INTEGER</text>
+<text x="952" y="296" class="fld">enabled</text>
+<text x="1250" y="296" class="typ" text-anchor="end">INTEGER</text>
+<rect x="901" y="302" width="358" height="20" fill="#F5F7FA"/>
+<text x="952" y="316" class="fld">created_at</text>
+<text x="1250" y="316" class="typ" text-anchor="end">TEXT(19)</text>
+<text x="952" y="336" class="fld">updated_at</text>
+<text x="1250" y="336" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="900" y="110" width="360" height="242" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="470" y="470" width="360" height="282" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 470 502 L 470 470 L 830 470 L 830 502 Z" fill="#1F4E79"/>
+<rect x="470" y="470" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="470" y="494" width="360" height="8" fill="#1F4E79"/>
+<text x="482" y="492" class="tname">assessment_result</text>
+<text x="818" y="491" class="tcn" text-anchor="end">测评结果表</text>
+<rect x="471" y="502" width="358" height="20" fill="#F5F7FA"/>
+<text x="480" y="516" class="key" fill="#C47B3A">PK</text>
+<text x="522" y="516" class="fld">id</text>
+<text x="820" y="516" class="typ" text-anchor="end">INTEGER</text>
+<text x="480" y="536" class="key" fill="#C47B3A">FK</text>
+<text x="522" y="536" class="fld">user_id</text>
+<text x="820" y="536" class="typ" text-anchor="end">INTEGER</text>
+<rect x="471" y="542" width="358" height="20" fill="#F5F7FA"/>
+<text x="522" y="556" class="fld">score_r</text>
+<text x="820" y="556" class="typ" text-anchor="end">INTEGER</text>
+<text x="522" y="576" class="fld">score_i</text>
+<text x="820" y="576" class="typ" text-anchor="end">INTEGER</text>
+<rect x="471" y="582" width="358" height="20" fill="#F5F7FA"/>
+<text x="522" y="596" class="fld">score_a</text>
+<text x="820" y="596" class="typ" text-anchor="end">INTEGER</text>
+<text x="522" y="616" class="fld">score_s</text>
+<text x="820" y="616" class="typ" text-anchor="end">INTEGER</text>
+<rect x="471" y="622" width="358" height="20" fill="#F5F7FA"/>
+<text x="522" y="636" class="fld">score_e</text>
+<text x="820" y="636" class="typ" text-anchor="end">INTEGER</text>
+<text x="522" y="656" class="fld">score_c</text>
+<text x="820" y="656" class="typ" text-anchor="end">INTEGER</text>
+<rect x="471" y="662" width="358" height="20" fill="#F5F7FA"/>
+<text x="522" y="676" class="fld">top1</text>
+<text x="820" y="676" class="typ" text-anchor="end">TEXT(1)</text>
+<text x="522" y="696" class="fld">top2</text>
+<text x="820" y="696" class="typ" text-anchor="end">TEXT(1)</text>
+<rect x="471" y="702" width="358" height="20" fill="#F5F7FA"/>
+<text x="522" y="716" class="fld">tie_flag</text>
+<text x="820" y="716" class="typ" text-anchor="end">INTEGER</text>
+<text x="522" y="736" class="fld">created_at</text>
+<text x="820" y="736" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="470" y="470" width="360" height="282" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="900" y="470" width="360" height="122" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 900 502 L 900 470 L 1260 470 L 1260 502 Z" fill="#1F4E79"/>
+<rect x="900" y="470" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="900" y="494" width="360" height="8" fill="#1F4E79"/>
+<text x="912" y="492" class="tname">assessment_answer</text>
+<text x="1248" y="491" class="tcn" text-anchor="end">作答明细表</text>
+<rect x="901" y="502" width="358" height="20" fill="#F5F7FA"/>
+<text x="910" y="516" class="key" fill="#C47B3A">PK</text>
+<text x="952" y="516" class="fld">id</text>
+<text x="1250" y="516" class="typ" text-anchor="end">INTEGER</text>
+<text x="910" y="536" class="key" fill="#C47B3A">FK</text>
+<text x="952" y="536" class="fld">result_id</text>
+<text x="1250" y="536" class="typ" text-anchor="end">INTEGER</text>
+<rect x="901" y="542" width="358" height="20" fill="#F5F7FA"/>
+<text x="910" y="556" class="key" fill="#C47B3A">FK</text>
+<text x="952" y="556" class="fld">question_id</text>
+<text x="1250" y="556" class="typ" text-anchor="end">INTEGER</text>
+<text x="952" y="576" class="fld">chosen_option</text>
+<text x="1250" y="576" class="typ" text-anchor="end">TEXT(1)</text>
+<rect x="900" y="470" width="360" height="122" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="1330" y="110" width="360" height="162" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 1330 142 L 1330 110 L 1690 110 L 1690 142 Z" fill="#1F4E79"/>
+<rect x="1330" y="110" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="1330" y="134" width="360" height="8" fill="#1F4E79"/>
+<text x="1342" y="132" class="tname">chat_session</text>
+<text x="1678" y="131" class="tcn" text-anchor="end">对话会话表</text>
+<rect x="1331" y="142" width="358" height="20" fill="#F5F7FA"/>
+<text x="1340" y="156" class="key" fill="#C47B3A">PK</text>
+<text x="1382" y="156" class="fld">id</text>
+<text x="1680" y="156" class="typ" text-anchor="end">INTEGER</text>
+<text x="1340" y="176" class="key" fill="#C47B3A">FK</text>
+<text x="1382" y="176" class="fld">user_id</text>
+<text x="1680" y="176" class="typ" text-anchor="end">INTEGER</text>
+<rect x="1331" y="182" width="358" height="20" fill="#F5F7FA"/>
+<text x="1382" y="196" class="fld">title</text>
+<text x="1680" y="196" class="typ" text-anchor="end">TEXT(20)</text>
+<text x="1382" y="216" class="fld">deleted_flag</text>
+<text x="1680" y="216" class="typ" text-anchor="end">INTEGER</text>
+<rect x="1331" y="222" width="358" height="20" fill="#F5F7FA"/>
+<text x="1382" y="236" class="fld">created_at</text>
+<text x="1680" y="236" class="typ" text-anchor="end">TEXT(19)</text>
+<text x="1382" y="256" class="fld">updated_at</text>
+<text x="1680" y="256" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="1330" y="110" width="360" height="162" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="1330" y="470" width="360" height="162" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 1330 502 L 1330 470 L 1690 470 L 1690 502 Z" fill="#1F4E79"/>
+<rect x="1330" y="470" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="1330" y="494" width="360" height="8" fill="#1F4E79"/>
+<text x="1342" y="492" class="tname">chat_message</text>
+<text x="1678" y="491" class="tcn" text-anchor="end">会话消息表</text>
+<rect x="1331" y="502" width="358" height="20" fill="#F5F7FA"/>
+<text x="1340" y="516" class="key" fill="#C47B3A">PK</text>
+<text x="1382" y="516" class="fld">id</text>
+<text x="1680" y="516" class="typ" text-anchor="end">INTEGER</text>
+<text x="1340" y="536" class="key" fill="#C47B3A">FK</text>
+<text x="1382" y="536" class="fld">session_id</text>
+<text x="1680" y="536" class="typ" text-anchor="end">INTEGER</text>
+<rect x="1331" y="542" width="358" height="20" fill="#F5F7FA"/>
+<text x="1382" y="556" class="fld">sender</text>
+<text x="1680" y="556" class="typ" text-anchor="end">TEXT(10)</text>
+<text x="1382" y="576" class="fld">content</text>
+<text x="1680" y="576" class="typ" text-anchor="end">TEXT(500)</text>
+<rect x="1331" y="582" width="358" height="20" fill="#F5F7FA"/>
+<text x="1382" y="596" class="fld">mock_flag</text>
+<text x="1680" y="596" class="typ" text-anchor="end">INTEGER</text>
+<text x="1382" y="616" class="fld">created_at</text>
+<text x="1680" y="616" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="1330" y="470" width="360" height="162" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="1760" y="110" width="360" height="162" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 1760 142 L 1760 110 L 2120 110 L 2120 142 Z" fill="#1F4E79"/>
+<rect x="1760" y="110" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="1760" y="134" width="360" height="8" fill="#1F4E79"/>
+<text x="1772" y="132" class="tname">career_plan</text>
+<text x="2108" y="131" class="tcn" text-anchor="end">规划方案表</text>
+<rect x="1761" y="142" width="358" height="20" fill="#F5F7FA"/>
+<text x="1770" y="156" class="key" fill="#C47B3A">PK</text>
+<text x="1812" y="156" class="fld">id</text>
+<text x="2110" y="156" class="typ" text-anchor="end">INTEGER</text>
+<text x="1770" y="176" class="key" fill="#C47B3A">FK</text>
+<text x="1812" y="176" class="fld">user_id</text>
+<text x="2110" y="176" class="typ" text-anchor="end">INTEGER</text>
+<rect x="1761" y="182" width="358" height="20" fill="#F5F7FA"/>
+<text x="1770" y="196" class="key" fill="#C47B3A">FK</text>
+<text x="1812" y="196" class="fld">session_id</text>
+<text x="2110" y="196" class="typ" text-anchor="end">INTEGER</text>
+<text x="1812" y="216" class="fld">content</text>
+<text x="2110" y="216" class="typ" text-anchor="end">TEXT(5000)</text>
+<rect x="1761" y="222" width="358" height="20" fill="#F5F7FA"/>
+<text x="1812" y="236" class="fld">source</text>
+<text x="2110" y="236" class="typ" text-anchor="end">TEXT(10)</text>
+<text x="1812" y="256" class="fld">created_at</text>
+<text x="2110" y="256" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="1760" y="110" width="360" height="162" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="1760" y="470" width="360" height="142" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 1760 502 L 1760 470 L 2120 470 L 2120 502 Z" fill="#1F4E79"/>
+<rect x="1760" y="470" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="1760" y="494" width="360" height="8" fill="#1F4E79"/>
+<text x="1772" y="492" class="tname">plan_comment</text>
+<text x="2108" y="491" class="tcn" text-anchor="end">老师评语表</text>
+<rect x="1761" y="502" width="358" height="20" fill="#F5F7FA"/>
+<text x="1770" y="516" class="key" fill="#C47B3A">PK</text>
+<text x="1812" y="516" class="fld">id</text>
+<text x="2110" y="516" class="typ" text-anchor="end">INTEGER</text>
+<text x="1770" y="536" class="key" fill="#C47B3A">FK</text>
+<text x="1812" y="536" class="fld">plan_id</text>
+<text x="2110" y="536" class="typ" text-anchor="end">INTEGER</text>
+<rect x="1761" y="542" width="358" height="20" fill="#F5F7FA"/>
+<text x="1770" y="556" class="key" fill="#C47B3A">FK</text>
+<text x="1812" y="556" class="fld">teacher_id</text>
+<text x="2110" y="556" class="typ" text-anchor="end">INTEGER</text>
+<text x="1812" y="576" class="fld">content</text>
+<text x="2110" y="576" class="typ" text-anchor="end">TEXT(200)</text>
+<rect x="1761" y="582" width="358" height="20" fill="#F5F7FA"/>
+<text x="1812" y="596" class="fld">created_at</text>
+<text x="2110" y="596" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="1760" y="470" width="360" height="142" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="470" y="880" width="360" height="222" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 470 912 L 470 880 L 830 880 L 830 912 Z" fill="#1F4E79"/>
+<rect x="470" y="880" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="470" y="904" width="360" height="8" fill="#1F4E79"/>
+<text x="482" y="902" class="tname">direction_item</text>
+<text x="818" y="901" class="tcn" text-anchor="end">方向库表</text>
+<rect x="471" y="912" width="358" height="20" fill="#F5F7FA"/>
+<text x="480" y="926" class="key" fill="#C47B3A">PK</text>
+<text x="522" y="926" class="fld">id</text>
+<text x="820" y="926" class="typ" text-anchor="end">INTEGER</text>
+<text x="480" y="946" class="key" fill="#C47B3A">U</text>
+<text x="522" y="946" class="fld">name</text>
+<text x="820" y="946" class="typ" text-anchor="end">TEXT(20)</text>
+<rect x="471" y="952" width="358" height="20" fill="#F5F7FA"/>
+<text x="522" y="966" class="fld">category</text>
+<text x="820" y="966" class="typ" text-anchor="end">TEXT(10)</text>
+<text x="522" y="986" class="fld">holland_tags</text>
+<text x="820" y="986" class="typ" text-anchor="end">TEXT(11)</text>
+<rect x="471" y="992" width="358" height="20" fill="#F5F7FA"/>
+<text x="522" y="1006" class="fld">summary</text>
+<text x="820" y="1006" class="typ" text-anchor="end">TEXT(200)</text>
+<text x="522" y="1026" class="fld">action_text</text>
+<text x="820" y="1026" class="typ" text-anchor="end">TEXT(200)</text>
+<rect x="471" y="1032" width="358" height="20" fill="#F5F7FA"/>
+<text x="522" y="1046" class="fld">status</text>
+<text x="820" y="1046" class="typ" text-anchor="end">INTEGER</text>
+<text x="522" y="1066" class="fld">created_at</text>
+<text x="820" y="1066" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="471" y="1072" width="358" height="20" fill="#F5F7FA"/>
+<text x="522" y="1086" class="fld">updated_at</text>
+<text x="820" y="1086" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="470" y="880" width="360" height="222" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="900" y="880" width="360" height="122" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 900 912 L 900 880 L 1260 880 L 1260 912 Z" fill="#1F4E79"/>
+<rect x="900" y="880" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="900" y="904" width="360" height="8" fill="#1F4E79"/>
+<text x="912" y="902" class="tname">user_favorite</text>
+<text x="1248" y="901" class="tcn" text-anchor="end">方向收藏表</text>
+<rect x="901" y="912" width="358" height="20" fill="#F5F7FA"/>
+<text x="910" y="926" class="key" fill="#C47B3A">PK</text>
+<text x="952" y="926" class="fld">id</text>
+<text x="1250" y="926" class="typ" text-anchor="end">INTEGER</text>
+<text x="910" y="946" class="key" fill="#C47B3A">FK</text>
+<text x="952" y="946" class="fld">user_id</text>
+<text x="1250" y="946" class="typ" text-anchor="end">INTEGER</text>
+<rect x="901" y="952" width="358" height="20" fill="#F5F7FA"/>
+<text x="910" y="966" class="key" fill="#C47B3A">FK</text>
+<text x="952" y="966" class="fld">direction_id</text>
+<text x="1250" y="966" class="typ" text-anchor="end">INTEGER</text>
+<text x="952" y="986" class="fld">created_at</text>
+<text x="1250" y="986" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="900" y="880" width="360" height="122" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="1330" y="880" width="360" height="182" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 1330 912 L 1330 880 L 1690 880 L 1690 912 Z" fill="#1F4E79"/>
+<rect x="1330" y="880" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="1330" y="904" width="360" height="8" fill="#1F4E79"/>
+<text x="1342" y="902" class="tname">announcement</text>
+<text x="1678" y="901" class="tcn" text-anchor="end">公告表</text>
+<rect x="1331" y="912" width="358" height="20" fill="#F5F7FA"/>
+<text x="1340" y="926" class="key" fill="#C47B3A">PK</text>
+<text x="1382" y="926" class="fld">id</text>
+<text x="1680" y="926" class="typ" text-anchor="end">INTEGER</text>
+<text x="1382" y="946" class="fld">title</text>
+<text x="1680" y="946" class="typ" text-anchor="end">TEXT(40)</text>
+<rect x="1331" y="952" width="358" height="20" fill="#F5F7FA"/>
+<text x="1382" y="966" class="fld">content</text>
+<text x="1680" y="966" class="typ" text-anchor="end">TEXT(500)</text>
+<text x="1382" y="986" class="fld">pinned</text>
+<text x="1680" y="986" class="typ" text-anchor="end">INTEGER</text>
+<rect x="1331" y="992" width="358" height="20" fill="#F5F7FA"/>
+<text x="1382" y="1006" class="fld">offline</text>
+<text x="1680" y="1006" class="typ" text-anchor="end">INTEGER</text>
+<text x="1382" y="1026" class="fld">created_at</text>
+<text x="1680" y="1026" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="1331" y="1032" width="358" height="20" fill="#F5F7FA"/>
+<text x="1382" y="1046" class="fld">updated_at</text>
+<text x="1680" y="1046" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="1330" y="880" width="360" height="182" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="1760" y="880" width="360" height="202" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 1760 912 L 1760 880 L 2120 880 L 2120 912 Z" fill="#1F4E79"/>
+<rect x="1760" y="880" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="1760" y="904" width="360" height="8" fill="#1F4E79"/>
+<text x="1772" y="902" class="tname">sys_config</text>
+<text x="2108" y="901" class="tcn" text-anchor="end">模型参数表</text>
+<rect x="1761" y="912" width="358" height="20" fill="#F5F7FA"/>
+<text x="1770" y="926" class="key" fill="#C47B3A">PK</text>
+<text x="1812" y="926" class="fld">id</text>
+<text x="2110" y="926" class="typ" text-anchor="end">INTEGER</text>
+<text x="1812" y="946" class="fld">api_url</text>
+<text x="2110" y="946" class="typ" text-anchor="end">TEXT(200)</text>
+<rect x="1761" y="952" width="358" height="20" fill="#F5F7FA"/>
+<text x="1812" y="966" class="fld">model_name</text>
+<text x="2110" y="966" class="typ" text-anchor="end">TEXT(100)</text>
+<text x="1812" y="986" class="fld">timeout_seconds</text>
+<text x="2110" y="986" class="typ" text-anchor="end">INTEGER</text>
+<rect x="1761" y="992" width="358" height="20" fill="#F5F7FA"/>
+<text x="1812" y="1006" class="fld">assistant_on</text>
+<text x="2110" y="1006" class="typ" text-anchor="end">INTEGER</text>
+<text x="1812" y="1026" class="fld">mock_on</text>
+<text x="2110" y="1026" class="typ" text-anchor="end">INTEGER</text>
+<rect x="1761" y="1032" width="358" height="20" fill="#F5F7FA"/>
+<text x="1812" y="1046" class="fld">disclaimer</text>
+<text x="2110" y="1046" class="typ" text-anchor="end">TEXT(120)</text>
+<text x="1812" y="1066" class="fld">updated_at</text>
+<text x="2110" y="1066" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="1760" y="880" width="360" height="202" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<rect x="40" y="1200" width="360" height="182" rx="6" fill="#FFFFFF" stroke="#1F4E79" stroke-width="1.6"/>
+<path d="M 40 1232 L 40 1200 L 400 1200 L 400 1232 Z" fill="#1F4E79"/>
+<rect x="40" y="1200" width="360" height="32" rx="6" fill="#1F4E79"/>
+<rect x="40" y="1224" width="360" height="8" fill="#1F4E79"/>
+<text x="52" y="1222" class="tname">operation_log</text>
+<text x="388" y="1221" class="tcn" text-anchor="end">操作日志表</text>
+<rect x="41" y="1232" width="358" height="20" fill="#F5F7FA"/>
+<text x="50" y="1246" class="key" fill="#C47B3A">PK</text>
+<text x="92" y="1246" class="fld">id</text>
+<text x="390" y="1246" class="typ" text-anchor="end">INTEGER</text>
+<text x="50" y="1266" class="key" fill="#C47B3A">FK</text>
+<text x="92" y="1266" class="fld">user_id</text>
+<text x="390" y="1266" class="typ" text-anchor="end">INTEGER</text>
+<rect x="41" y="1272" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="1286" class="fld">action</text>
+<text x="390" y="1286" class="typ" text-anchor="end">TEXT(10)</text>
+<text x="92" y="1306" class="fld">target_type</text>
+<text x="390" y="1306" class="typ" text-anchor="end">TEXT(30)</text>
+<rect x="41" y="1312" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="1326" class="fld">target_id</text>
+<text x="390" y="1326" class="typ" text-anchor="end">TEXT(30)</text>
+<text x="92" y="1346" class="fld">client_ip</text>
+<text x="390" y="1346" class="typ" text-anchor="end">TEXT(45)</text>
+<rect x="41" y="1352" width="358" height="20" fill="#F5F7FA"/>
+<text x="92" y="1366" class="fld">created_at</text>
+<text x="390" y="1366" class="typ" text-anchor="end">TEXT(19)</text>
+<rect x="40" y="1200" width="360" height="182" rx="6" fill="none" stroke="#1F4E79" stroke-width="1.6"/>
+<text x="40" y="1410" class="rel" style="font-size:13px">图例：</text>
+<text x="92" y="1410" class="key" fill="#C47B3A">PK</text>
+<text x="114" y="1410" class="rel">主键</text>
+<text x="170" y="1410" class="key" fill="#C47B3A">FK</text>
+<text x="192" y="1410" class="rel">外键</text>
+<text x="248" y="1410" class="key" fill="#C47B3A">U</text>
+<text x="270" y="1410" class="rel">唯一</text>
+<path d="M 326 1405 L 366 1405" stroke="#7A8899" stroke-width="1.6"/>
+<text x="374" y="1410" class="rel">外键关系</text>
+<path d="M 456 1405 L 496 1405" stroke="#7A8899" stroke-width="1.6" class="rel-dash"/>
+<text x="504" y="1410" class="rel">业务规则（虚线，无外键约束）</text>
+</svg>
